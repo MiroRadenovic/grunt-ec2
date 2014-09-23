@@ -43,7 +43,10 @@ function api (steps, options, done) {
             var parent = path.relative(path.dirname(r.local), r.local);
             var remoteSync = util.format('%s%s', r.remote, parent ? '/' + parent : '');
 
-            ssh([ util.format('sudo cp -r %s/* %s', remoteSync, r.dest) ], options, next);
+            ssh([ util.format('sudo cp -r %s/* %s', remoteSync, r.dest) ], options, chown);
+        }
+        function chown(){
+             ssh([ util.format('sudo chown -R %s:%s %s',conf('AWS_SSH_USER') ,conf('AWS_SSH_USER'),r.dest) ], options, next);
         }
     }, done);
 
