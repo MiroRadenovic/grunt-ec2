@@ -20,8 +20,14 @@ module.exports = {
         // user can override NODE_ENV if need be
         _.assign(env, defaults, user);
 
-        return util.format('%s || sudo %s pm2 start %s/%s -i %s --name %s || echo "pm2 already started."',
-            running, parse.toPairs(env), conf('SRV_CURRENT'), conf('NODE_SCRIPT'), conf('PM2_INSTANCES_COUNT'), name
+        // if PM2_MODE is conf to 'fork', run pm2 with -x param: https://github.com/Unitech/PM2/issues/74
+        // For Node v0.10.x the workaround is now to launch your script in "fork mode" by adding the -x parameter 
+        var pmMode = "";
+        if(conf('PM2_MODE') == 'fork'){
+            pmMode = "-x"
+        }
+        return util.format('%s || sudo %s pm2 start %s/%s -i %s --name %s %s || echo "pm2 already started."',
+            running, parse.toPairs(env), conf('SRV_CURRENT'), conf('NODE_SCRIPT'), conf('PM2_INSTANCES_COUNT'), name, pmMode
         );
     }
 };

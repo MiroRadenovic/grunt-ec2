@@ -96,7 +96,8 @@ Variable Name|Purpose
 `"SSL_STRICT"`|Whether to send a `Strict-Transport-Security` header.
 `"VERBOSITY_NPM"`|Determines the output verbosity for `npm` during deployments, values are limited to `loglevel` option values for `npm`. Defaults to `info`, just like `npm` does.
 `"VERBOSITY_RSYNC"`|Determines the output verbosity for `rsync`. Possible values limited to `'v'`, `'vv'`, and `'vvv'`. Defaults to `''` (not verbose at all, my friend).
- `"PM2_INSTANCES_COUNT"`| Set number processes to start with pm2. default is 2 and valid values are integers or 'max' for setting the maximum processes depending on avaible CPUs
+ `"PM2_INSTANCES_COUNT"`| Set number processes to start with pm2. default is 2 and valid values are integers or 'max' for setting the maximum processes depending on avaible CPUs.
+ `"PM2_MODE"`| If set to `'fork'`, lauches pm2 with the param `'-x'` instead of cluster mode. This is a workaround for Node v0.10.x as pm2 does not work well with this version of node. If you are using Node 0.11.x you shuold prefer using cluster mode (default) and avoid setting this param. More on this subject: https://github.com/Unitech/PM2/issues/74
 
 # Tasks
 
